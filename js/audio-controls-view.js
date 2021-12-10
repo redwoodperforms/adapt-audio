@@ -1,7 +1,6 @@
 define([
-    'core/js/adapt',
-    './audio-feedback-view'
-], function (Adapt, AudioFeedbackView) {
+    'core/js/adapt'
+], function (Adapt) {
 
     var AudioControlsView = Backbone.View.extend({
 
@@ -16,8 +15,7 @@ define([
                 "popup:closed": this.stopFeedbackAudio,
                 "audio:updateAudioStatus device:resize": this.updateToggle,
                 "audio:configured": this.audioConfigured,
-                "audio:changeText": this.replaceText,
-                "audio:updateAudioAutoplayGlobal": this.updateAutoplay
+                "audio:changeText": this.replaceText
             });
 
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
@@ -91,10 +89,6 @@ define([
             }, this));
         },
 
-        updateAutoplay: function (AutoplayGlobal) {
-            this.canAutoplay = Adapt.audio.autoPlayGlobal;
-        },
-
         postRender: function () {
             this.updateToggle();
             // Run function to check for reduced text
@@ -124,7 +118,7 @@ define([
                 }
             } else {
                 try {
-                    this.audioFile = this.model.get("_audio")._media.desktop;
+                    this.audioFile = this.model.get("_audio")._media.mobile;
                 } catch (e) {
                     console.log('An error has occured loading audio');
                 }
@@ -169,29 +163,19 @@ define([
                 this.setupIncorrectFeedback();
             }
 
-            if (this.FeedbackAudioFile) {
-                var data = {};
-                data.FeedbackAudioFile = this.FeedbackAudioFile;
-                data.elementId = this.elementId;
-                data.audioChannel = this.audioChannel;
-                this.model.set('feedbackAudioData', data);
-
-                new AudioFeedbackView({ model: this.model });
+            if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
 
-            // if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
-            //     Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-            // }
-
-            // // Effects audio
-            // if (this.audioEffectsEnabled && Adapt.audio.audioClip[this.audioEffectsChannel].status == 1) {
-            //     Adapt.trigger('audio:playAudio', this.audioEffectsFile, null, this.audioEffectsChannel);
-            // }
+            // Effects audio
+            if (this.audioEffectsEnabled && Adapt.audio.audioClip[this.audioEffectsChannel].status == 1) {
+                Adapt.trigger('audio:playAudio', this.audioEffectsFile, null, this.audioEffectsChannel);
+            }
         },
 
         setupCorrectFeedback: function () {
             try {
-                this.FeedbackAudioFile = this.model.get('_audio')._feedback._correct._correct;
+                this.audioFile = this.model.get('_audio')._feedback._correct._correct;
             } catch (e) {
                 console.log('An error has occured loading audio');
             }
@@ -210,7 +194,7 @@ define([
             if (this.model.get('_attemptsLeft') === 0 || !this.model.get('_audio')._feedback._partlyCorrect._notFinal) {
                 if (this.model.get('_audio')._feedback._partlyCorrect._final) {
                     try {
-                        this.FeedbackAudioFile = this.model.get('_audio')._feedback._partlyCorrect._final;
+                        this.audioFile = this.model.get('_audio')._feedback._partlyCorrect._final;
                     } catch (e) {
                         console.log('An error has occured loading audio');
                     }
@@ -228,7 +212,7 @@ define([
                 // Not final
             } else {
                 try {
-                    this.FeedbackAudioFile = this.model.get('_audio')._feedback._partlyCorrect._notFinal;
+                    this.audioFile = this.model.get('_audio')._feedback._partlyCorrect._notFinal;
                 } catch (e) {
                     console.log('An error has occured loading audio');
                 }
@@ -253,7 +237,7 @@ define([
                 // Final
                 if (this.model.get('_attemptsLeft') === 0) {
                     try {
-                        this.FeedbackAudioFile = this.model.get('_audio')._feedback._incorrect._final;
+                        this.audioFile = this.model.get('_audio')._feedback._incorrect._final;
                     } catch (e) {
                         console.log('An error has occured loading audio');
                     }
@@ -264,7 +248,7 @@ define([
                     // Not final
                 } else {
                     try {
-                        this.FeedbackAudioFile = this.model.get('_audio')._feedback._incorrect._notFinal;
+                        this.audioFile = this.model.get('_audio')._feedback._incorrect._notFinal;
                     } catch (e) {
                         console.log('An error has occured loading audio');
                     }
@@ -284,7 +268,7 @@ define([
             var activeItem = this.getActiveItem();
             var index = activeItem.get('_index');
             var itemArray = this.model.get('_audio')._feedback._items;
-            this.FeedbackAudioFile = itemArray[index]._src;
+            this.audioFile = itemArray[index]._src;
         },
 
         getActiveItem: function () {
@@ -305,7 +289,7 @@ define([
 
         onscreen: function (event, measurements) {
             if (this.popupIsOpen) return;
-            this.updateAutoplay();
+
             var visible = this.model.get('_isVisible');
             var isOnscreenX = measurements.percentInviewHorizontal == 100;
             var isOnscreen = measurements.onscreen;

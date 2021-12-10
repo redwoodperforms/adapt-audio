@@ -1,104 +1,70 @@
-import Adapt from 'core/js/adapt';
+define([
+    'core/js/adapt'
+], function(Adapt) {
 
-export default class AudioResultsView extends Backbone.View {
+    var AudioResultsView = Backbone.View.extend({
 
-  className() {
-    return 'audio';
-  }
+        className: "audio-controls",
 
-  initialize() {
-    this.listenTo(Adapt, {
-      'remove': this.remove,
-      'audio:updateAudioStatus device:resize': this.updateToggle
-    });
+        initialize: function () {
+            this.listenTo(Adapt, {
+                "remove": this.remove,
+                "audio:updateAudioStatus": this.updateToggle
+            });
 
-    this.listenToOnce(Adapt, 'remove', this.removeInViewListeners);
+            this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
 
-    this.render();
-  }
+            this.render();
+        },
 
-  render() {
-    const data = this.model.toJSON();
-    const template = Handlebars.templates['audioResults'];
+        render: function () {
+            var data = this.model.toJSON();
+            var template = Handlebars.templates["audioResults"];
+            if(this.model.get('_audioAssessment')._location=="bottom-left" || this.model.get("_audioAssessment")._location=="bottom-right") {
+                $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
+            } else {
+                $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+            }
+            // Add class so it can be referenced in the theme if needed
+            $(this.el).addClass(this.model.get("_type")+"-audio");
 
-    if (this.model.get('_audioAssessment')._location=='bottom-left' || this.model.get('_audioAssessment')._location=='bottom-right') {
-      $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + ' > .'+this.model.get('_type')+'__inner');
-    } else {
-      $(this.el).html(template(data)).prependTo('.' + this.model.get('_id') + ' > .'+this.model.get('_type')+'__inner');
-    }
-    // Add class so it can be referenced in the theme if needed
-    $(this.el).addClass(this.model.get('_type')+'-audio');
+            // Set vars
+            this.audioChannel = this.model.get('_audioAssessment')._channel;
+            this.elementId = this.model.get("_id");
+            this.audioIcon = Adapt.audio.iconPlay;
 
-    // Set vars
-    this.audioChannel = this.model.get('_audioAssessment')._channel;
-    this.elementId = this.model.get('_id');
-    this.audioIcon = Adapt.audio.iconPlay;
+            // Add audio icon
+            this.$('.audio-toggle').addClass(this.audioIcon);
 
-    // Add audio icon
-    this.$('.audio__controls-icon').addClass(this.audioIcon);
+            // Hide controls
+            if (this.model.get('_audioAssessment')._showControls == false || Adapt.audio.audioClip[this.audioChannel].status == 0) {
+                this.$('.audio-inner button').hide();
+            }
 
-    this.elementHeight = this.$('.audio__controls').outerHeight();
+            // Set clip ID
+            Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
+            // Set listener for when clip ends
+            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
+        },
 
-    // Hide controls
-    if (this.model.get('_audioAssessment')._showControls == false || Adapt.audio.audioClip[this.audioChannel].status == 0) {
-      this.$('.audio__controls').addClass('is-hidden');
-    }
+        onAudioEnded: function() {
+            Adapt.trigger('audio:audioEnded', this.audioChannel);
+        },
 
-    // Set clip ID
-    Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
+        updateToggle: function() {
+            if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audioAssessment')._showControls == true) {
+                this.$('.audio-inner button').show();
+            } else {
+                this.$('.audio-inner button').hide();
+            }
+        },
 
-    // Set listener for when clip ends
-    $(Adapt.audio.audioClip[this.audioChannel]).on('ended', this.onAudioEnded.bind(this));
-
-    _.defer(() => {
-      this.postRender();
-    });
-  }
-
-  postRender() {
-    this.updateToggle();
-  }
-
-  onAudioEnded() {
-    Adapt.trigger('audio:audioEnded', this.audioChannel);
-  }
-
-  updateToggle() {
-    // Reset
-    $('.'+this.elementId).find('.component__body-inner').css('max-width', "");
-    $('.'+this.elementId).find('.component__title-inner').css('max-width', "");
-
-    this.$('.audio__controls').css('padding', "");
-    this.$('.audio__controls').css('height', "");
-    this.$('.audio__controls').css('width', "");
-
-    if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audioAssessment')._showControls) {
-      this.$('.audio__controls').removeClass('is-hidden');
-
-      const outerWidth = this.$('.js-audio-toggle').outerWidth();
-      const elementWidth = $('.'+this.elementId).find('.component-header').outerWidth();
-      const padding = outerWidth - this.$('.js-audio-toggle').width();
-      const maxWidth = (elementWidth - outerWidth) - padding;
-      const titleHeight = $('.'+this.elementId).find('.component__title').outerHeight();
-
-      // Set width on elements title or body
-      if (this.model.get('displayTitle') == "") {
-        $('.'+this.elementId).find('.component__body-inner').css('max-width', maxWidth);
-      } else {
-        $('.'+this.elementId).find('.component__title-inner').css('max-width', maxWidth);
-
-        if (titleHeight < this.elementHeight) {
-          this.$('.audio__controls').css('padding', 0);
-          this.$('.audio__controls').css('height', titleHeight);
-          this.$('.audio__controls').css('width', titleHeight);
+        removeInViewListeners: function () {
+            Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
-      }
-    } else {
-      this.$('.audio__controls').addClass('is-hidden');
-    }
-  }
 
-  removeInViewListeners() {
-    Adapt.trigger('audio:pauseAudio', this.audioChannel);
-  }
-}
+    });
+
+    return AudioResultsView;
+
+});

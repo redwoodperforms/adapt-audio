@@ -1,70 +1,63 @@
-import Adapt from 'core/js/adapt';
+define([
+    'core/js/adapt'
+], function(Adapt) {
 
-export default class AudioNavigationView extends Backbone.View {
+    var AudioNavigationView = Backbone.View.extend({
 
-  tagName() {
-    return 'button';
-  }
+        className: 'audio-navigation',
 
-  className() {
-    return 'btn-icon nav__btn nav__audio-btn js-nav-audio-btn';
-  }
+        initialize: function() {
+            this.listenTo(Adapt.config, 'change:_activeLanguage', this.remove);
+            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
 
-  attributes() {
-    return {
-      'aria-label': Adapt.course.get('_globals')._extensions._audio.statusOnAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel
-    }
-  }
+            this.render();
+        },
 
-  events() {
-    return {
-      'click': 'toggleAudio'
-    };
-  }
+        events: {
+            "click .audio-button":"toggleAudio"
+        },
 
-  initialize() {
-    this.listenTo(Adapt.config, 'change:_activeLanguage', this.remove);
-    this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
-    this.listenTo(Adapt, 'device:changed', this.onDeviceChanged);
+        render: function() {
+            var data = this.model.toJSON();
+            var template = Handlebars.templates["audioNavigation"];
 
-    this.render();
-  }
+            this.$el.html(template({
+                audioToggle:data
+            }));
 
-  render() {
-    const data = this.model.toJSON();
-    const template = Handlebars.templates['audioNavigation'];
+            // Check for audio being on
+            if(Adapt.audio.audioStatus == 1){
+                this.$('.audio-button').addClass(Adapt.audio.iconOn);
+            } else {
+                this.$('.audio-button').addClass(Adapt.audio.iconOff);
+            }
 
-    this.$el.html(template({
-      audioToggle:data
-    }));
+            if (!Adapt.course.get('_audio')._showOnNavbar) {
+                this.$el.addClass('hidden');
+            }
 
-    this.updateToggle();
-    this.onDeviceChanged();
-  }
+            return this;
+        },
 
-  updateToggle() {
-    // Update based on overall audio status
-    if (Adapt.audio.audioStatus == 1){
-      this.$('.audio__controls-icon').removeClass(Adapt.audio.iconOff);
-      this.$('.audio__controls-icon').addClass(Adapt.audio.iconOn);
-      this.$el.attr('aria-label', Adapt.a11y.normalize(Adapt.course.get('_globals')._extensions._audio.statusOnAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
-    } else {
-      this.$('.audio__controls-icon').removeClass(Adapt.audio.iconOn);
-      this.$('.audio__controls-icon').addClass(Adapt.audio.iconOff);
-      this.$el.attr('aria-label', Adapt.a11y.normalize(Adapt.course.get('_globals')._extensions._audio.statusOffAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
-    }
-  }
+        updateToggle: function(){
+            // Update based on overall audio status
+            if(Adapt.audio.audioStatus == 1){
+                this.$('.audio-button').removeClass(Adapt.audio.iconOff);
+                this.$('.audio-button').addClass(Adapt.audio.iconOn);
+            } else {
+                this.$('.audio-button').removeClass(Adapt.audio.iconOn);
+                this.$('.audio-button').addClass(Adapt.audio.iconOff);
+            }
+        },
 
-  toggleAudio(event) {
-    if (event) event.preventDefault();
-    Adapt.trigger('audio:showAudioDrawer');
-  }
+        toggleAudio: function(event) {
+            if (event) event.preventDefault();
 
-  onDeviceChanged() {
-    if (Adapt.device.screenSize === 'small') {
-      this.$el.addClass('u-display-none');
-    } else {
-      this.$el.removeClass('u-display-none');
-    }
-  }
-}
+            Adapt.trigger('audio:showAudioDrawer');
+        }
+
+    });
+
+    return AudioNavigationView;
+
+});

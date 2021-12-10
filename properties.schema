@@ -4,73 +4,57 @@
   "id": "http://jsonschema.net",
   "required": false,
   "globals": {
-    "statusOnAriaLabel": {
-      "type": "string",
-      "required": true,
-      "default": "Audio is turned on.",
-      "inputType": "Text",
-      "validators": [],
-      "translatable": true
-    },
-    "statusOffAriaLabel": {
-      "type": "string",
-      "required": true,
-      "default": "Audio is turned off.",
-      "inputType": "Text",
-      "validators": [],
-      "translatable": true
-    },
-    "navigationAriaLabel": {
-      "type": "string",
-      "required": true,
-      "default": "Open course audio.",
-      "inputType": "Text",
-      "validators": [],
-      "translatable": true
-    },
-    "playAriaLabel": {
-      "type": "string",
-      "required": true,
-      "default": "Play audio.",
-      "inputType": "Text",
-      "validators": [],
-      "translatable": true
-    },
-    "pauseAriaLabel": {
-      "type": "string",
-      "required": true,
-      "default": "Pause audio.",
-      "inputType": "Text",
-      "validators": [],
-      "translatable": true
-    },
-    "stopAriaLabel": {
-      "type": "string",
-      "required": true,
-      "default": "Stop audio.",
-      "inputType": "Text",
-      "validators": [],
-      "translatable": true
-    }
+      "navigationAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Open course audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      },
+      "playAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Play audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      },
+      "pauseAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Pause audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      },
+      "stopAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Stop audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      }
   },
   "properties": {
     "pluginLocations": {
-      "type": "object",
+      "type":"object",
       "required": true,
-      "properties": {
+      "properties":{
         "config": {
-          "type": "object"
+          "type":"object"
         },
         "course": {
-          "type": "object",
-          "properties": {
+          "type":"object",
+          "properties":{
             "_audio": {
-              "type": "object",
+              "type":"object",
               "required": false,
               "legend": "Audio",
-              "properties": {
+              "properties":{
                 "_isEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Is Enabled",
@@ -79,7 +63,7 @@
                   "help": "Controls whether the Audio extension is enabled or disabled."
                 },
                 "_reducedTextisEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Reduced Text Is Enabled",
@@ -88,7 +72,7 @@
                   "help": "Controls whether the reduced text functionality is enabled or disabled."
                 },
                 "_autoplay": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay Is Enabled",
@@ -97,7 +81,7 @@
                   "help": "Enables autoplay on all audio elements. If enabled this will override the Autoplay setting used on all Articles, Blocks and Components."
                 },
                 "_autoPlayOnce": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay Once Is Enabled",
@@ -106,7 +90,7 @@
                   "help": "Sets whether audio should autoplay only once when on screen. If enabled this will override the Autoplay Once setting used on all Articles, Blocks and Components."
                 },
                 "_showOnNavbar": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Show Audio Pause/Play Icon on the navigation bar",
@@ -160,77 +144,18 @@
                   "validators": ["number"],
                   "help": "The order in which this extension should appear as a drawer item."
                 },
-                "_reducedText": {
-                  "type": "object",
-                  "required": true,
-                  "legend": "Drawer Reduced Text",
-                  "properties": {
-                    "title": {
-                      "type": "string",
-                      "required": false,
-                      "default": "Text setting",
-                      "title": "Drawer Title",
-                      "inputType": "Text",
-                      "validators": [],
-                      "translatable": true
-                    },
-                    "descriptionFull": {
-                      "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Drawer Description - Full Text",
-                      "inputType": "Text",
-                      "validators": [],
-                      "translatable": true
-                    },
-                    "descriptionReduced": {
-                      "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Drawer Description - Reduced Text",
-                      "inputType": "Text",
-                      "validators": [],
-                      "translatable": true
-                    },
-                    "_buttons": {
-                      "type": "object",
-                      "required": true,
-                      "title": "Drawer Buttons",
-                      "properties": {
-                        "full": {
-                          "type": "string",
-                          "required": false,
-                          "default": "Set to full text",
-                          "title": "Full Text Button",
-                          "inputType": "Text",
-                          "validators": [],
-                          "translatable": true
-                        },
-                        "reduced": {
-                          "type": "string",
-                          "required": false,
-                          "default": "Set to reduced text",
-                          "title": "Reduced Text Button",
-                          "inputType": "Text",
-                          "validators": [],
-                          "translatable": true
-                        }
-                      }
-                    }
-                  }
-                },
                 "_channels": {
-                  "type": "object",
+                  "type":"object",
                   "required": true,
-                  "legend": "Audio Channels",
-                  "properties": {
+                  "title": "Audio Channels",
+                  "properties":{
                     "_narration": {
-                      "type": "object",
+                      "type":"object",
                       "required": true,
                       "title": "Narration",
-                      "properties": {
+                      "properties":{
                         "_isEnabled": {
-                          "type": "boolean",
+                          "type":"boolean",
                           "required": true,
                           "default": true,
                           "title": "Channel Is Enabled",
@@ -259,7 +184,7 @@
                         "descriptionOn": {
                           "type": "string",
                           "required": false,
-                          "default": "",
+                          "default": "Audio is currently turned on. Select the icon below to turn the audio off.",
                           "title": "Drawer Description - Audio On",
                           "inputType": "Text",
                           "validators": [],
@@ -268,7 +193,7 @@
                         "descriptionOff": {
                           "type": "string",
                           "required": false,
-                          "default": "",
+                          "default": "Audio is currently turned off. Select the icon below to turn the audio on.",
                           "title": "Drawer Description - Audio Off",
                           "inputType": "Text",
                           "validators": [],
@@ -277,12 +202,12 @@
                       }
                     },
                     "_effects": {
-                      "type": "object",
+                      "type":"object",
                       "required": true,
                       "title": "Effects",
-                      "properties": {
+                      "properties":{
                         "_isEnabled": {
-                          "type": "boolean",
+                          "type":"boolean",
                           "required": true,
                           "default": true,
                           "title": "Channel Is Enabled",
@@ -311,7 +236,7 @@
                         "descriptionOn": {
                           "type": "string",
                           "required": false,
-                          "default": "",
+                          "default": "Sound effects are currently turned on. Select the icon below to turn the sound effects off.",
                           "title": "Drawer Description - Audio On",
                           "inputType": "Text",
                           "validators": [],
@@ -320,7 +245,7 @@
                         "descriptionOff": {
                           "type": "string",
                           "required": false,
-                          "default": "",
+                          "default": "Sound effects are currently turned off. Select the icon below to turn the sound effects on.",
                           "title": "Drawer Description - Audio Off",
                           "inputType": "Text",
                           "validators": [],
@@ -329,12 +254,12 @@
                       }
                     },
                     "_music": {
-                      "type": "object",
+                      "type":"object",
                       "required": true,
                       "title": "Music",
-                      "properties": {
+                      "properties":{
                         "_isEnabled": {
-                          "type": "boolean",
+                          "type":"boolean",
                           "required": true,
                           "default": true,
                           "title": "Channel Is Enabled",
@@ -363,7 +288,7 @@
                         "descriptionOn": {
                           "type": "string",
                           "required": false,
-                          "default": "",
+                          "default": "Music is currently turned on. Select the icon below to turn the music off.",
                           "title": "Drawer Description - Audio On",
                           "inputType": "Text",
                           "validators": [],
@@ -372,7 +297,7 @@
                         "descriptionOff": {
                           "type": "string",
                           "required": false,
-                          "default": "",
+                          "default": "Music is currently turned off. Select the icon below to turn the music on.",
                           "title": "Drawer Description - Audio Off",
                           "inputType": "Text",
                           "validators": [],
@@ -382,15 +307,74 @@
                     }
                   }
                 },
-                "_icons": {
-                  "type": "object",
+                "_reducedText": {
+                  "type":"object",
                   "required": true,
-                  "legend": "Button Icons",
-                  "properties": {
+                  "title": "Drawer Reduced Text",
+                  "properties":{
+                    "title": {
+                      "type": "string",
+                      "required": false,
+                      "default": "Text setting",
+                      "title": "Drawer Title",
+                      "inputType": "Text",
+                      "validators": [],
+                      "translatable": true
+                    },
+                    "descriptionFull": {
+                      "type": "string",
+                      "required": false,
+                      "default": "The text is set to full. Select the button below if you would like the text to summarise the audio.",
+                      "title": "Drawer Description - Full Text",
+                      "inputType": "Text",
+                      "validators": [],
+                      "translatable": true
+                    },
+                    "descriptionReduced": {
+                      "type": "string",
+                      "required": false,
+                      "default": "The text is set to reduced. Select the button below if you would like the text to match the audio exactly.",
+                      "title": "Drawer Description - Reduced Text",
+                      "inputType": "Text",
+                      "validators": [],
+                      "translatable": true
+                    },
+                    "_buttons": {
+                      "type":"object",
+                      "required": true,
+                      "title": "Drawer Buttons",
+                      "properties":{
+                        "full": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Set to full text",
+                          "title": "Full Text Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "translatable": true
+                        },
+                        "reduced": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Set to reduced text",
+                          "title": "Reduced Text Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "translatable": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "_icons": {
+                  "type":"object",
+                  "required": true,
+                  "title": "Audio Icon Classes",
+                  "properties":{
                     "_audioOn": {
                       "type": "string",
                       "required": true,
-                      "default": "audio-volume-medium",
+                      "default": "icon-audio-on audio-volume-medium",
                       "title": "Audio On Icon",
                       "inputType": "Text",
                       "validators": []
@@ -398,7 +382,7 @@
                     "_audioOff": {
                       "type": "string",
                       "required": true,
-                      "default": "audio-volume-mute",
+                      "default": "icon-audio-off audio-volume-mute",
                       "title": "Audio Off Icon",
                       "inputType": "Text",
                       "validators": []
@@ -406,7 +390,7 @@
                     "_audioPlay": {
                       "type": "string",
                       "required": true,
-                      "default": "audio-play",
+                      "default": "icon-audio-play audio-play",
                       "title": "Play Icon",
                       "inputType": "Text",
                       "validators": []
@@ -414,7 +398,7 @@
                     "_audioPause": {
                       "type": "string",
                       "required": true,
-                      "default": "audio-pause",
+                      "default": "icon-audio-pause audio-pause",
                       "title": "Pause Icon",
                       "inputType": "Text",
                       "validators": []
@@ -422,12 +406,12 @@
                   }
                 },
                 "_prompt": {
-                  "type": "object",
+                  "type":"object",
                   "required": true,
-                  "legend": "Course Load Prompt",
-                  "properties": {
+                  "title": "Initial Prompt",
+                  "properties":{
                     "_isEnabled": {
-                      "type": "boolean",
+                      "type":"boolean",
                       "required": false,
                       "default": true,
                       "title": "Is Enabled",
@@ -454,36 +438,18 @@
                     },
                     "bodyAudioOn": {
                       "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Text if Audio is On and Reduced text is On",
-                      "inputType": "TextArea",
-                      "validators": [],
-                      "translatable": true
-                    },
-                    "instructionAudioOn": {
-                      "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Instruction if Audio is On and Reduced text is On",
+                      "required": true,
+                      "default": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
+                      "title": "Prompt Message if Audio is On and Reduced text is On",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
                     },
                     "bodyAudioOff": {
                       "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Text if Audio is Off and Reduced text is On",
-                      "inputType": "TextArea",
-                      "validators": [],
-                      "translatable": true
-                    },
-                    "instructionAudioOff": {
-                      "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Instruction if Audio is Off and Reduced text is On",
+                      "required": true,
+                      "default": "Audio is turned off by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
+                      "title": "Prompt Message if Audio is Off and Reduced text is On",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
@@ -491,17 +457,8 @@
                     "bodyNoReducedAudioOn": {
                       "type": "string",
                       "required": false,
-                      "default": "",
-                      "title": "Text if Audio is On and Reduced text is Off",
-                      "inputType": "TextArea",
-                      "validators": [],
-                      "translatable": true
-                    },
-                    "instructionNoReducedAudioOn": {
-                      "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Instruction if Audio is On and Reduced text is Off",
+                      "default": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the audio icon).",
+                      "title": "Prompt Message if Audio is On and Reduced text is Off",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
@@ -509,30 +466,21 @@
                     "bodyNoReducedAudioOff": {
                       "type": "string",
                       "required": false,
-                      "default": "",
-                      "title": "Text if Audio is Off and Reduced text is Off",
-                      "inputType": "TextArea",
-                      "validators": [],
-                      "translatable": true
-                    },
-                    "instructionNoReducedAudioOff": {
-                      "type": "string",
-                      "required": false,
-                      "default": "",
-                      "title": "Instruction if Audio is Off and Reduced text is Off",
+                      "default": "Audio is turned off by default in this module. Please select Continue or Turn audio on (you can change your preference at any time by selecting the audio icon).",
+                      "title": "Prompt Message if Audio is Off and Reduced text is Off",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
                     },
                     "_buttons": {
-                      "type": "object",
-                      "required": true,
-                      "title": "Buttons",
-                      "properties": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Prompt Buttons",
+                      "properties":{
                         "full": {
                           "type": "string",
-                          "required": false,
-                          "default": "",
+                          "required": true,
+                          "default": "Full",
                           "title": "Full Text",
                           "inputType": "Text",
                           "validators": [],
@@ -541,8 +489,8 @@
                         },
                         "reduced": {
                           "type": "string",
-                          "required": false,
-                          "default": "",
+                          "required": true,
+                          "default": "Reduced",
                           "title": "Reduced Text",
                           "inputType": "Text",
                           "validators": [],
@@ -551,8 +499,8 @@
                         },
                         "continue": {
                           "type": "string",
-                          "required": false,
-                          "default": "",
+                          "required": true,
+                          "default": "Continue",
                           "title": "Continue",
                           "inputType": "Text",
                           "validators": [],
@@ -561,8 +509,8 @@
                         },
                         "turnOff": {
                           "type": "string",
-                          "required": false,
-                          "default": "",
+                          "required": true,
+                          "default": "Turn audio off",
                           "title": "Turn Off",
                           "inputType": "Text",
                           "validators": [],
@@ -571,8 +519,8 @@
                         },
                         "turnOn": {
                           "type": "string",
-                          "required": false,
-                          "default": "",
+                          "required": true,
+                          "default": "Turn audio on",
                           "title": "Turn On",
                           "inputType": "Text",
                           "validators": [],
@@ -582,23 +530,14 @@
                       }
                     },
                     "_graphic": {
-                      "type": "object",
+                      "type":"object",
                       "required": false,
-                      "title": "Header Graphic",
-                      "properties": {
-                        "_icon": {
-                          "type": "string",
-                          "required": false,
-                          "default": "",
-                          "title": "Icon",
-                          "inputType": "Text",
-                          "validators": []
-                        },
+                      "title": "Graphic",
+                      "properties":{
                         "src": {
-                          "type": "string",
-                          "required": false,
+                          "type":"string",
+                          "required": true,
                           "default": "",
-                          "title": "Image",
                           "inputType": "Asset:image",
                           "validators": []
                         }
@@ -611,13 +550,13 @@
           }
         },
         "contentobject": {
-          "type": "object",
-          "properties": {
+          "type":"object",
+          "properties":{
             "_audio": {
-              "type": "object",
+              "type":"object",
               "required": false,
               "legend": "Audio",
-              "properties": {
+              "properties":{
                 "_isEnabled": {
                   "type": "boolean",
                   "required": false,
@@ -646,7 +585,7 @@
                   "help": "Autoplays the audio when on screen."
                 },
                 "_autoPlayOnce": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Autoplay Once Is Enabled",
@@ -683,8 +622,6 @@
                       "title": "Page Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "audioSources": ["body"],
-                      "audioConditions": [],
                       "help": "Audio for the page."
                     }
                   }
@@ -694,15 +631,15 @@
           }
         },
         "article": {
-          "type": "object",
-          "properties": {
+          "type":"object",
+          "properties":{
             "_audio": {
-              "type": "object",
+              "type":"object",
               "required": false,
               "legend": "Audio",
-              "properties": {
+              "properties":{
                 "_isEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Is Enabled",
@@ -711,7 +648,7 @@
                   "help": "Enables Audio on the Article."
                 },
                 "_showControls": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Show Controls",
@@ -720,7 +657,7 @@
                   "help": "Displays the icon controls on the Article."
                 },
                 "_autoplay": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay",
@@ -729,7 +666,7 @@
                   "help": "Autoplays the audio when on screen."
                 },
                 "_autoPlayOnce": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay Only Once Enabled",
@@ -738,7 +675,7 @@
                   "help": "Only autoplays the audio once when on screen."
                 },
                 "_channel": {
-                  "type": "number",
+                  "type":"number",
                   "required": false,
                   "default":0,
                   "title": "Channel",
@@ -766,8 +703,6 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "audioSources": ["body"],
-                      "audioConditions": [],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
@@ -777,14 +712,12 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "audioSources": ["body"],
-                      "audioConditions": [],
                       "help": "Audio for mobile size device."
                     }
                   }
                 },
                 "_reducedTextisEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Reduced Text Is Enabled",
@@ -817,15 +750,15 @@
           }
         },
         "block": {
-          "type": "object",
-          "properties": {
+          "type":"object",
+          "properties":{
             "_audio": {
-              "type": "object",
+              "type":"object",
               "required": false,
               "legend": "Audio",
-              "properties": {
+              "properties":{
                 "_isEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Is Enabled",
@@ -834,7 +767,7 @@
                   "help": "Enables Audio on the Block."
                 },
                 "_showControls": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Show Controls",
@@ -843,7 +776,7 @@
                   "help": "Displays the icon controls on the Block."
                 },
                 "_autoplay": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay",
@@ -852,7 +785,7 @@
                   "help": "Autoplays the audio when on screen."
                 },
                 "_autoPlayOnce": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay Only Once",
@@ -861,7 +794,7 @@
                   "help": "Only autoplays the audio once when on screen."
                 },
                 "_channel": {
-                  "type": "number",
+                  "type":"number",
                   "required": false,
                   "default":0,
                   "title": "Channel",
@@ -889,8 +822,6 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "audioSources": ["body"],
-                      "audioConditions": [],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
@@ -900,14 +831,12 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "audioSources": ["body"],
-                      "audioConditions": [],
                       "help": "Audio for mobile size device."
                     }
                   }
                 },
                 "_reducedTextisEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Reduced Text Is Enabled",
@@ -940,15 +869,15 @@
           }
         },
         "component": {
-          "type": "object",
-          "properties": {
+          "type":"object",
+          "properties":{
             "_audio": {
-              "type": "object",
+              "type":"object",
               "required": false,
               "legend": "Audio",
-              "properties": {
+              "properties":{
                 "_isEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Is enabled",
@@ -957,7 +886,7 @@
                   "help": "Enables Audio on the Component."
                 },
                 "_showControls": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Show Controls",
@@ -966,7 +895,7 @@
                   "help": "Displays the icon controls on the Component."
                 },
                 "_autoplay": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay",
@@ -975,7 +904,7 @@
                   "help": "Autoplays the audio when on screen."
                 },
                 "_autoPlayOnce": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": true,
                   "title": "Autoplay Only Once",
@@ -984,7 +913,7 @@
                   "help": "Only autoplays the audio once when on screen."
                 },
                 "_channel": {
-                  "type": "number",
+                  "type":"number",
                   "required": false,
                   "default":0,
                   "title": "Channel",
@@ -1012,8 +941,6 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "audioSources": ["body"],
-                      "audioConditions": [{"ifComponentReplaceText": {"component": "character-text", "path": "_text/body"}},{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}, {"ifItemsAppendAllItems": {"component": "list", "itemKey": "_items", "textPaths": ["title"]}}],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
@@ -1023,14 +950,12 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "audioSources": ["body"],
-                      "audioConditions": [{"ifComponentReplaceText": {"component": "character-text", "path": "_text/body"}},{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}, {"ifItemsAppendAllItems": {"component": "list", "itemKey": "_items", "textPaths": ["title"]}}],
                       "help": "Audio for mobile size device."
                     }
                   }
                 },
                 "_reducedTextisEnabled": {
-                  "type": "boolean",
+                  "type":"boolean",
                   "required": false,
                   "default": false,
                   "title": "Reduced Text Is Enabled",
@@ -1064,7 +989,7 @@
                   "legend": "Question Feedback",
                   "properties": {
                     "_isEnabled": {
-                      "type": "boolean",
+                      "type":"boolean",
                       "required": false,
                       "title": "Is Enabled",
                       "inputType": "Checkbox",
@@ -1072,11 +997,11 @@
                       "help": "Turns feedback audio on and off for question components."
                     },
                     "_correct": {
-                      "type": "object",
+                      "type":"object",
                       "required": false,
-                      "properties": {
+                      "properties":{
                         "correctReduced": {
-                          "type": "string",
+                          "type":"string",
                           "required": false,
                           "default": "",
                           "title": "Correct - Reduced Text",
@@ -1092,18 +1017,16 @@
                           "title": "Correct Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "audioSources": ["_feedback/correct"],
-                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/correct"}}, {"ifExtensionAddFirst": {"extension": "_badges", "path": "_badges/_feedback/_feedbackTitle/correct"}}, {"ifExtensionAddFirst": {"extension": "_scoreDisplay", "path": "_scoreDisplay/_feedback/_feedbackTitle/correct"}}, {"ifExtensionAddFirst": {"extension": "_inventory", "path": "_inventory/_feedback/_feedbackTitle/correct"}}, {"ifExtensionAddFirst": {"extension": "_gauges", "path": "_gauges/_feedback/_feedbackTitle/correct"}}],
                           "help": "Optional audio for correct feedback."
                         }
                       }
                     },
                     "_incorrect": {
-                      "type": "object",
+                      "type":"object",
                       "required":false,
-                      "properties": {
+                      "properties":{
                         "notFinalReduced": {
-                          "type": "string",
+                          "type":"string",
                           "required": false,
                           "default": "",
                           "title": "Incorrect Not Final - Reduced Text",
@@ -1113,7 +1036,7 @@
                           "translatable": true
                         },
                         "finalReduced": {
-                          "type": "string",
+                          "type":"string",
                           "required": true,
                           "default": "",
                           "title": "Incorrect Final - Reduced Text",
@@ -1129,8 +1052,6 @@
                           "title": "Incorrect Not Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "audioSources": ["_feedback/_incorrect/notFinal"],
-                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/incorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_badges", "path": "_badges/_feedback/_feedbackTitle/incorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_scoreDisplay", "path": "_scoreDisplay/_feedback/_feedbackTitle/incorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_inventory", "path": "_inventory/_feedback/_feedbackTitle/incorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_gauges", "path": "_gauges/_feedback/_feedbackTitle/incorrectNotFinal"}}],
                           "help": "Optional audio for incorrect not final feedback."
                         },
                         "_final": {
@@ -1140,18 +1061,16 @@
                           "title": "Incorrect Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "audioSources": ["_feedback/_incorrect/final"],
-                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/incorrect"}}, {"ifExtensionAddFirst": {"extension": "_badges", "path": "_badges/_feedback/_feedbackTitle/incorrect"}}, {"ifExtensionAddFirst": {"extension": "_scoreDisplay", "path": "_scoreDisplay/_feedback/_feedbackTitle/incorrect"}}, {"ifExtensionAddFirst": {"extension": "_inventory", "path": "_inventory/_feedback/_feedbackTitle/incorrect"}}, {"ifExtensionAddFirst": {"extension": "_gauges", "path": "_gauges/_feedback/_feedbackTitle/incorrect"}}],
                           "help": "Optional audio for incorrect final feedback."
                         }
                       }
                     },
                     "_partlyCorrect": {
-                      "type": "object",
+                      "type":"object",
                       "required":false,
-                      "properties": {
+                      "properties":{
                         "notFinalReduced": {
-                          "type": "string",
+                          "type":"string",
                           "required": false,
                           "default": "",
                           "title": "Partly Correct Not Final - Reduced Text",
@@ -1161,7 +1080,7 @@
                           "translatable": true
                         },
                         "finalReduced": {
-                          "type": "string",
+                          "type":"string",
                           "required": false,
                           "default": "",
                           "title": "Partly Correct Final - Reduced Text",
@@ -1177,8 +1096,6 @@
                           "title": "Partly Correct Not Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "audioSources": ["_feedback/_partlyCorrect/notFinal"],
-                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/partlyCorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_badges", "path": "_badges/_feedback/_feedbackTitle/partlyCorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_scoreDisplay", "path": "_scoreDisplay/_feedback/_feedbackTitle/partlyCorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_inventory", "path": "_inventory/_feedback/_feedbackTitle/partlyCorrectNotFinal"}}, {"ifExtensionAddFirst": {"extension": "_gauges", "path": "_gauges/_feedback/_feedbackTitle/partlyCorrectNotFinal"}}],
                           "help": "Optional audio for partly correct not final feedback."
                         },
                         "_final": {
@@ -1188,8 +1105,6 @@
                           "title": "Partly Correct Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "audioSources": ["_feedback/_partlyCorrect/final"],
-                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/partlyCorrect"}}, {"ifExtensionAddFirst": {"extension": "_badges", "path": "_badges/_feedback/_feedbackTitle/partlyCorrect"}}, {"ifExtensionAddFirst": {"extension": "_scoreDisplay", "path": "_scoreDisplay/_feedback/_feedbackTitle/partlyCorrect"}}, {"ifExtensionAddFirst": {"extension": "_inventory", "path": "_inventory/_feedback/_feedbackTitle/partlyCorrect"}}, {"ifExtensionAddFirst": {"extension": "_gauges", "path": "_gauges/_feedback/_feedbackTitle/partlyCorrect"}}],
                           "help": "Optional audio for partly correct final feedback."
                         }
                       }
@@ -1238,13 +1153,13 @@
                       }
                     },
                     "_items": {
-                      "type": "array",
+                      "type":"array",
                       "required": true,
                       "title": "Option Specific Items",
                       "items": {
-                        "type": "object",
+                        "type":"object",
                         "required": true,
-                        "properties": {
+                        "properties":{
                           "_src": {
                             "type": "string",
                             "required": false,
@@ -1252,7 +1167,6 @@
                             "title": "Option Audio",
                             "inputType": "Asset:audio",
                             "validators": [],
-                            "audioSources": {},
                             "help": "Optional audio for the specific option selected."
                           }
                         }

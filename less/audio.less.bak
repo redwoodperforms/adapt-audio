@@ -4,7 +4,7 @@
         .dir-rtl & {
             float: left;
         }
-        color: @primary-color;
+        color: @white;
         padding: @navigation-padding;
         .transition-color;
         &:hover{
@@ -44,9 +44,10 @@
 .audio-controls {
     position:relative;
     right:5px;
+    top:-7px;
     .audio-toggle {
         color: @item-text-color;
-        //background-color: @item-color;
+        background-color: transparent;
         padding: 8px;
         .transition-all-colors;
         &:hover{
@@ -65,17 +66,8 @@
         .no-touch &:hover {
             color: @drawer-icon-color-hover;
         }
-        margin-top: 20px;
-        margin-bottom: 0px;
-    }
-    .drawer-audio-autoplay-toggle {
-        color: @drawer-item-text-color;
-        .transition-color;
-        .no-touch &:hover {
-            color: @drawer-icon-color-hover;
-        }
-        margin-top: 20px;
-        margin-bottom: 0px;
+        margin-top: @drawer-item-padding-top;
+        margin-bottom: @drawer-item-padding-bottom;
     }
     .drawer-item-open {
         width: auto !important;
@@ -126,12 +118,6 @@
 
 }
 
-.drawer-controls{
-    img{
-        width: 26px;
-    }
-}
-
 .audio-play:before {
     content: "\e900";
 }
@@ -146,7 +132,6 @@
 }
 .audio-volume-medium:before {
     content: "\e904";
-    // background-image: url(/assets/volume-normal.svg);
 }
 .audio-volume-low:before {
     content: "\e905";
@@ -213,14 +198,7 @@
 }
 
 .item-audio-container{
-        display: inline-block;
-    vertical-align: middle;
+    display: inline-table;
   }
 
-.drawer-controls{
-    //margin-top:20px;
-    //display: flex;
-    & div{
-        //padding: 10px;
-    }
-}
+

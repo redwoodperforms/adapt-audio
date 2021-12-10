@@ -194,21 +194,13 @@ define([
       this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
       // Set empty location so that the prompt is checked
-      // Adapt.offlineStorage.set("location", "");
-      this.listenTo(Adapt, "menuView:postRender pageView:postRender",_.debounce(this.checkLaunchOnLangChange,1000));
+      Adapt.offlineStorage.set("location", "");
 
       this.listenToOnce(Adapt, "app:dataReady", this.onDataReady);
 
       if (!Adapt.audio) return;
 
       this.stopAllChannels();
-    },
-
-    checkLaunchOnLangChange:function () {
-      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled ) {
-        this.showAudioPrompt();
-        this.stopListening(Adapt,"menuView:postRender pageView:postRender",this.checkLaunchOnLangChange);
-      }
     },
 
     showAudioPrompt: function () {
@@ -358,18 +350,10 @@ define([
     },
 
     pauseAudio: function (channel) {
-      if (channel) {
-        if (!Adapt.audio.audioClip[channel].paused) {
-          Adapt.audio.audioClip[channel].isPlaying = false;
-          Adapt.audio.audioClip[channel].pause();
-          this.hideAudioIcon(channel);
-        }
-      } else {
-        _.each(Adapt.audio.audioClip, function (audio, index) {
-          audio.isPlaying = false;
-          audio.pause();
-          this.hideAudioIcon(index);
-        }.bind(this))
+      if (!Adapt.audio.audioClip[channel].paused) {
+        Adapt.audio.audioClip[channel].isPlaying = false;
+        Adapt.audio.audioClip[channel].pause();
+        this.hideAudioIcon(channel);
       }
     },
 
@@ -520,14 +504,6 @@ define([
               item.itemElement = $('.' + view.model.get('_id')).find(".item-" + index + "-audio");
               new AudioItemControlsView({ model: new Backbone.Model(item) });
             });
-          } else {
-            var item = view.model.get(view.model.get("_itemSimilarObject"));
-            if (!item._audio) return;
-            item._type = "Item";
-            item._id = view.model.get("_id") + "-" + 0;
-            item.itemIndex = 0;
-            item.itemElement = $('.' + view.model.get('_id')).find(".item-" + 0 + "-audio");
-            new AudioItemControlsView({ model: new Backbone.Model(item) });
           }
         } catch (e) {
           console.log(e);

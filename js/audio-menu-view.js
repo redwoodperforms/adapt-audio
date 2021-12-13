@@ -12,10 +12,12 @@ define([
                 "audio:configured": this.audioConfigured,
                 "popup:opened notify:opened": this.popupOpened,
                 "popup:closed": this.popupClosed,
-                "audio:updateAudioStatus": this.updateToggle
+                "audio:updateAudioStatus": this.updateToggle,
+                "audio:updateAudioAutoplayGlobal": this.updateAutoplay
             });
 
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
+            this.updateAutoplay();
 
             this.render();
         },
@@ -107,6 +109,10 @@ define([
             }
         },
 
+        updateAutoplay: function (AutoplayGlobal) {
+          this.canAutoplay = Adapt.audio.autoPlayGlobal;
+        },
+        
         autoplayAudio: function() {
           if (this.popupIsOpen) return;
           // Play audio if autoplay is true

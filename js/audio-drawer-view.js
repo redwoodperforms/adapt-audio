@@ -13,11 +13,13 @@ define([
         },
 
         events: {
-            "click .item-narration":"toggleNarration",
+            "click .item-normal-narration": "turnOnNarration",
+            "click .item-mute-narration": "turnOffNarration",
             "click .item-effects":"toggleEffects",
             "click .item-music":"toggleMusic",
             "click .full-button":"setFullText",
-            "click .reduced-button":"setReducedText"
+            "click .reduced-button":"setReducedText",
+            "click .item-autoplay-narration": "toggleAutoplay"
         },
 
         render: function() {
@@ -41,7 +43,7 @@ define([
               this.checkMusic();
               this.numChannels ++;
             }
-
+	        // this.checkAutoplay();
             this.checkTextSize();
 
             _.defer(_.bind(this.postRender, this));
@@ -52,19 +54,31 @@ define([
             this.listenTo(Adapt, 'drawer:triggerCustomView', this.remove);
         },
 
-        toggleNarration: function(event) {
+        toggleAutoplay: function (event) {
             if (event) event.preventDefault();
+            this.turnOnNarration();
+            Adapt.audio.autoPlayGlobal = false;
+            Adapt.trigger('audio:updateAudioAutoplayGlobal', Adapt.audio.autoPlayGlobal);
+            // this.checkAutoplay();
+        },
 
-            if (this.numChannels == 1) {
-              this.toggleAll(Adapt.audio.audioClip[0].status);
-            } else {
-              if(Adapt.audio.audioClip[0].status == 0){
-                  Adapt.trigger('audio:updateAudioStatus', 0, 1);
-              } else {
-                  Adapt.trigger('audio:updateAudioStatus', 0, 0);
-              }
-              this.checkNarration();
-            }
+        turnOnNarration: function (event) {
+            if (event) event.preventDefault();
+            // if (Adapt.audio.audioClip[0].status == 0) {
+            Adapt.trigger('audio:updateAudioStatus', 0, 1);
+            // } else {
+            //     Adapt.trigger('audio:updateAudioStatus', 0, 0);
+            // }
+            Adapt.audio.autoPlayGlobal = true;
+            Adapt.trigger('audio:updateAudioAutoplayGlobal', Adapt.audio.autoPlayGlobal);
+            // this.checkAutoplay();
+            // this.checkNarration();
+        },
+
+        turnOffNarration: function (event) {
+            Adapt.trigger('audio:updateAudioStatus', 0, 0);
+            Adapt.trigger('audio:updateAudioStatus', 1, 0);
+            Adapt.trigger('audio:updateAudioStatus', 2, 0);
         },
 
         toggleEffects: function(event) {
@@ -108,6 +122,7 @@ define([
                 Adapt.trigger('audio:updateAudioStatus', 2, 0);
             }
             this.checkNarration();
+            // this.checkAutoplay();
             this.checkEffects();
             this.checkMusic();
         },
@@ -124,30 +139,35 @@ define([
             }
         },
 
+        // checkAutoplay: function () {
+        // if (Adapt.audio.autoPlayGlobal) {
+        //     this.$('.item-autoplay-narration').find("img").attr("src", "./assets/volume-error-1.svg");
+        // } else {
+        //     this.$('.item-autoplay-narration').find("img").attr("src", "./assets/volume-error.svg");
+        // }
+        // },
+    
+
         checkNarration: function() {
-            if(Adapt.audio.audioClip[0].status==1){
-                this.$('.narration-description').html(Adapt.course.get('_audio')._channels._narration.descriptionOn);
-                this.$('.item-narration').removeClass(Adapt.audio.iconOff);
-                this.$('.item-narration').addClass(Adapt.audio.iconOn);
-                this.$('.item-narration').attr('aria-label', $.a11y_normalize(Adapt.audio.stopAriaLabel));
-            } else {
-                this.$('.narration-description').html(Adapt.course.get('_audio')._channels._narration.descriptionOff);
-                this.$('.item-narration').removeClass(Adapt.audio.iconOn);
-                this.$('.item-narration').addClass(Adapt.audio.iconOff);
-                this.$('.item-narration').attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
-            }
+            // if (Adapt.audio.audioClip[0].status == 1) {
+            //     this.$('.narration-description').html(Adapt.course.get('_audio')._channels._narration.descriptionOn);
+            //     this.$('.item-narration').find("img").attr("src", "./assets/volume-normal.svg");
+            //     this.$('.item-narration').attr('aria-label', $.a11y_normalize(Adapt.audio.stopAriaLabel));
+            // } else {
+            //     this.$('.narration-description').html(Adapt.course.get('_audio')._channels._narration.descriptionOff);
+            //     this.$('.item-narration').find("img").attr("src", "./assets/volume-mute.svg");
+            //     this.$('.item-narration').attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
+            // }
         },
 
         checkEffects: function() {
             if(Adapt.audio.audioClip[1].status==1){
                 this.$('.effects-description').html(Adapt.course.get('_audio')._channels._effects.descriptionOn);
-                this.$('.item-effects').removeClass(Adapt.audio.iconOff);
-                this.$('.item-effects').addClass(Adapt.audio.iconOn);
+                this.$('.item-effects').attr("src", "./assets/volume-normal.svg");
                 this.$('.item-effects').attr('aria-label', $.a11y_normalize(Adapt.audio.stopAriaLabel));
             } else {
                 this.$('.effects-description').html(Adapt.course.get('_audio')._channels._effects.descriptionOff);
-                this.$('.item-effects').removeClass(Adapt.audio.iconOn);
-                this.$('.item-effects').addClass(Adapt.audio.iconOff);
+                this.$('.item-effects').attr("src", "./assets/volume-mute.svg");
                 this.$('.item-effects').attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
             }
         },
@@ -155,13 +175,11 @@ define([
         checkMusic: function() {
             if(Adapt.audio.audioClip[2].status==1){
                 this.$('.music-description').html(Adapt.course.get('_audio')._channels._music.descriptionOn);
-                this.$('.item-music').removeClass(Adapt.audio.iconOff);
-                this.$('.item-music').addClass(Adapt.audio.iconOn);
+                this.$('.item-music').attr("src", "./assets/volume-normal.svg");
                 this.$('.item-music').attr('aria-label', $.a11y_normalize(Adapt.audio.stopAriaLabel));
             } else {
                 this.$('.music-description').html(Adapt.course.get('_audio')._channels._music.descriptionOff);
-                this.$('.item-music').removeClass(Adapt.audio.iconOn);
-                this.$('.item-music').addClass(Adapt.audio.iconOff);
+                this.$('.item-music').attr("src", "./assets/volume-mute.svg");
                 this.$('.item-music').attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
             }
         },

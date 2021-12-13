@@ -194,13 +194,21 @@ define([
       this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
       // Set empty location so that the prompt is checked
-      Adapt.offlineStorage.set("location", "");
+      // Adapt.offlineStorage.set("location", "");
+      this.listenTo(Adapt, "menuView:postRender pageView:postRender",_.debounce(this.checkLaunchOnLangChange,1000));
 
       this.listenToOnce(Adapt, "app:dataReady", this.onDataReady);
 
       if (!Adapt.audio) return;
 
       this.stopAllChannels();
+    },
+
+    checkLaunchOnLangChange:function () {
+      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled ) {
+        this.showAudioPrompt();
+        this.stopListening(Adapt,"menuView:postRender pageView:postRender",this.checkLaunchOnLangChange);
+      }
     },
 
     showAudioPrompt: function () {

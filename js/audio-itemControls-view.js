@@ -10,7 +10,8 @@ define([
             this.listenTo(Adapt, {
                 "remove": this.remove,
                 "device:changed": this.setAudioFile,
-                "audio:updateAudioStatus device:resize": this.updateToggle
+                "audio:updateAudioStatus device:resize": this.updateToggle,
+                "audio:updateAudioAutoplayGlobal": this.updateAutoplay
             });
 
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
@@ -28,11 +29,16 @@ define([
             this.render();
         },
 
+        removeInViewListeners: function () {
+            this.$el.off('onscreen');
+        },
+
         events: {
             'click .audio-toggle': 'toggleAudio'
         },
 
         render: function () {
+            this.setupAudio();
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioControls"];
             this.$el.html(template(data));
@@ -48,12 +54,30 @@ define([
             // Add class so it can be referenced in the theme if needed
             $(this.el).addClass(this.elementType + "-audio");
 
-            // Autoplay restricted for items
-            this.canAutoplay = false;
-            this.autoplayOnce = false;
+            // // Autoplay restricted for items
+            // this.canAutoplay = false;
+            // this.autoplayOnce = false;
+            if (Adapt.audio.autoPlayGlobal) {
+                this.canAutoplay = true;
+            } else {
+                this.canAutoplay = false;
+            }
 
+            // Autoplay once
+            if (Adapt.audio.autoPlayOnceGlobal || this.model.get("_audio")._autoPlayOnce) {
+                this.autoplayOnce = true;
+            } else {
+                this.autoplayOnce = false;
+            }
 
+            //overriding global autoplay for items
+            if (this.model.get("_audio")._autoplay) {
+                this.canAutoplay = true;
+            } else {
+                this.canAutoplay = false;
+            }
 
+            this.canAutoplayWhenOnScreen = this.model.get("_audio")._autoplayWhenOnScreen
 
             // Set audio file
             this.setAudioFile();
@@ -73,6 +97,79 @@ define([
             this.updateToggle();
         },
 
+        setupAudio: function () {
+            _.delay(_.bind(function () {
+                this.popupIsOpen = false;
+                this.$el.on('onscreen', _.bind(this.onscreen, this));
+            }, this), 500);
+        },
+
+        updateAutoplay: function (AutoplayGlobal) {
+            if (this.model.get("_audio")._autoplay) {
+                this.canAutoplay = Adapt.audio.autoPlayGlobal;
+            }
+        },
+
+        onscreen: function (event, measurements) {
+
+            if (this.popupIsOpen) return;
+            this.updateAutoplay();
+            var visible = $(event.currentTarget).is(":visible");
+            var isOnscreenX = measurements.percentInviewHorizontal == 100;
+            var isOnscreen = measurements.onscreen;
+
+            var elementTopOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
+            var elementBottomOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromBottom < (100 - Adapt.audio.triggerPosition);
+
+            var isOnscreenY = elementTopOnscreenY || elementBottomOnscreenY;
+
+            // Check for element coming on screen
+            if (visible && isOnscreen && this.canAutoplay && ((isOnscreenY && isOnscreenX) || this.canAutoplayWhenOnScreen) && !this.onscreenTriggered && !this.isAnimating) {
+                // Check if audio is set to on
+                if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
+                    this.setAudioFile();
+
+                    // Check for component items
+                    if (this.elementType === 'component' && !this.model.get('_isQuestionType') && this.model.get('_children')) {
+                        var itemIndex = this.getActiveItemIndex();
+                        var currentItem = this.model.get('_items')[itemIndex];
+
+                        // Check for tiles component
+                        if (this.model.get('_component') == "tiles" && itemIndex != null) {
+                            if (itemIndex == 0 || itemIndex > 0) {
+                                this.audioFile = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+                            }
+                        } else {
+                            if (itemIndex > 0) {
+                                this.audioFile = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+                            }
+                        }
+                    }
+
+                    // Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+                    this.playAudio($("#" + this.elementId));
+                }
+                // Set to false to stop autoplay when onscreen again
+                if (this.autoplayOnce) {
+                    this.canAutoplay = false;
+                }
+                // Set to true to stop onscreen looping
+                this.onscreenTriggered = true;
+            }
+
+            // Check when element is off screen
+            if (this.canAutoplayWhenOnScreen) {
+                if (!visible && !isOnscreen) {
+                    this.onscreenTriggered = false;
+                    Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
+                }
+            }
+            else if (visible && (!isOnscreenY || !isOnscreenX)) {
+                this.onscreenTriggered = false;
+                Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
+            }
+        },
+
         setAudioFile: function () {
             // Set audio file based on the device size
             if (Adapt.device.screenSize === 'large') {
@@ -83,7 +180,7 @@ define([
                 }
             } else {
                 try {
-                    this.audioFile = this.model.get("_audio")._media.mobile;
+                    this.audioFile = this.model.get("_audio")._media.desktop;
                 } catch (e) {
                     console.log('An error has occured loading audio');
                 }

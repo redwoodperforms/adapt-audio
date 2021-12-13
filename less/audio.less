@@ -4,11 +4,11 @@
         .dir-rtl & {
             float: left;
         }
-        color: @white;
+        color: @primary-color;
         padding: @navigation-padding;
         .transition-color;
         &:hover{
-            color: @nav-icon-hover;
+            color: @navigation-icon-color-hover;
         }
     }
     &.hidden {
@@ -44,10 +44,9 @@
 .audio-controls {
     position:relative;
     right:5px;
-    top:-7px;
     .audio-toggle {
         color: @item-text-color;
-        background-color: transparent;
+        //background-color: @item-color;
         padding: 8px;
         .transition-all-colors;
         &:hover{
@@ -61,30 +60,39 @@
 
 .audio-drawer {
     .drawer-audio-toggle {
-        color: @drawer-inverted;
+        color: @drawer-item-text-color;
         .transition-color;
         .no-touch &:hover {
-            color: @drawer-icon-inverted;
+            color: @drawer-icon-color-hover;
         }
-        margin-top: @drawer-item-padding-top;
-        margin-bottom: @drawer-item-padding-bottom;
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
+    .drawer-audio-autoplay-toggle {
+        color: @drawer-item-text-color;
+        .transition-color;
+        .no-touch &:hover {
+            color: @drawer-icon-color-hover;
+        }
+        margin-top: 20px;
+        margin-bottom: 0px;
     }
     .drawer-item-open {
         width: auto !important;
 
         &:hover {
-          background-color: @drawer-item !important;
+          background-color: @drawer-item-color !important;
         }
     }
     .drawer-audio-button {
         margin-top: @drawer-item-padding-top;
         margin-bottom: @drawer-item-padding-bottom;
         width: 100%;
-        color: @drawer-icon;
-        background-color: @drawer-icon-inverted;
+        color: @drawer-item-text-color;
+        background-color: @drawer-item-color;
         .no-touch &:hover {
-            color: @drawer-icon-hover;
-            background-color: @drawer-icon-inverted-hover;
+            color: @drawer-item-text-color-hover;
+            background-color: @drawer-item-color-hover;
         }
     }
 }
@@ -110,12 +118,18 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    color: @background-inverted;
+    color: @foreground-color;
     display: block;
     font-size: @icon-size;
     text-decoration: none;
     text-align: center;
 
+}
+
+.drawer-controls{
+    img{
+        width: 26px;
+    }
 }
 
 .audio-play:before {
@@ -132,6 +146,7 @@
 }
 .audio-volume-medium:before {
     content: "\e904";
+    // background-image: url(/assets/volume-normal.svg);
 }
 .audio-volume-low:before {
     content: "\e905";
@@ -169,7 +184,7 @@
     .icon;
     .icon-audio-on;
 
-    color: @notify-icon;
+    color: @notify-text-color;
 
     padding-left: 5px;
     padding-right: 5px;
@@ -198,7 +213,14 @@
 }
 
 .item-audio-container{
-    display: inline-table;
+        display: inline-block;
+    vertical-align: middle;
   }
 
-
+.drawer-controls{
+    //margin-top:20px;
+    //display: flex;
+    & div{
+        //padding: 10px;
+    }
+}

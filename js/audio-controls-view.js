@@ -43,9 +43,9 @@ define([
             var template = Handlebars.templates["audioControls"];
 
             if (this.model.get('_audio')._location == "bottom-left" || this.model.get("_audio")._location == "bottom-right") {
-                $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + ">." + this.elementType + "-inner");
+                $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + ">." + this.elementType + "__inner");
             } else {
-                $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + ">." + this.elementType + "-inner");
+                $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + ">." + this.elementType + "__inner");
             }
             // Add class so it can be referenced in the theme if needed
             $(this.el).addClass(this.elementType + "-audio");
@@ -322,7 +322,7 @@ define([
                     this.setAudioFile();
 
                     // Check for component items
-                    if (this.elementType === 'component' && !this.model.get('_isQuestionType') && this.model.get('_children')) {
+                    if (this.elementType === 'component' && !this.model.get('_isQuestionType') && this.model.get('_children') && this.model.get('_children').length) {
                         var itemIndex = this.getActiveItemIndex();
                         var currentItem = this.model.get('_items')[itemIndex];
 
@@ -397,7 +397,7 @@ define([
             Adapt.audio.audioClip[this.audioChannel].src = this.audioFile;
 
             // Check for component items
-            if (this.elementType === 'component' && !this.model.get('_isQuestionType') && this.model.get('_children')) {
+            if (this.elementType === 'component' && !this.model.get('_isQuestionType') && this.model.get('_children') && this.model.get('_children').length) {
                 var itemIndex = this.getActiveItemIndex();
                 var currentItem = this.model.get('_items')[itemIndex];
 

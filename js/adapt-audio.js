@@ -130,7 +130,7 @@ define([
     loadNavigationView: function (navigationView) {
       var audioModel = Adapt.course.get('_audio');
       var audioNavigationModel = new Backbone.Model(audioModel);
-      navigationView.$('.navigation-drawer-toggle-button').after(new AudioNavigationView({
+      navigationView.$('.nav__drawer-btn').after(new AudioNavigationView({
         model: audioNavigationModel
       }).$el);
     },
@@ -195,7 +195,7 @@ define([
 
       // Set empty location so that the prompt is checked
       // Adapt.offlineStorage.set("location", "");
-      this.listenTo(Adapt, "menuView:postRender pageView:postRender",_.debounce(this.checkLaunchOnLangChange,1000));
+      this.listenTo(Adapt, "menuView:postRender pageView:postRender", _.debounce(this.checkLaunchOnLangChange, 1000));
 
       this.listenToOnce(Adapt, "app:dataReady", this.onDataReady);
 
@@ -204,10 +204,10 @@ define([
       this.stopAllChannels();
     },
 
-    checkLaunchOnLangChange:function () {
-      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled ) {
+    checkLaunchOnLangChange: function () {
+      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
         this.showAudioPrompt();
-        this.stopListening(Adapt,"menuView:postRender pageView:postRender",this.checkLaunchOnLangChange);
+        this.stopListening(Adapt, "menuView:postRender pageView:postRender", this.checkLaunchOnLangChange);
       }
     },
 

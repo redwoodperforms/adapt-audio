@@ -46,7 +46,7 @@ define([
             this.$el.html(template(data));
             // Add audio icon
             this.$('.audio-toggle').addClass(this.audioIcon);
-            var itemElem = $("." + this.model.get("_id")).find(".component-feedback");
+            var itemElem = $("." + this.model.get("_id")).find(".component__feedback");
             if (this.model.get("_audio")._feedback._location == "bottom-left" || this.model.get("_audio")._feedback._location == "bottom-right") {
                 itemElem.after(this.$el);
             } else {
@@ -238,7 +238,7 @@ define([
                 this.$('.audio-inner button').show();
 
                 var outerWidth = this.$('.audio-toggle').outerWidth();
-                var elementWidth = $("." + this.model.get("_id")).find(".component-feedback").outerWidth();
+                var elementWidth = $("." + this.model.get("_id")).find(".component__feedback").outerWidth();
                 var padding = outerWidth - this.$('.audio-toggle').width();
                 var maxWidth = (elementWidth - outerWidth) - padding;
 
